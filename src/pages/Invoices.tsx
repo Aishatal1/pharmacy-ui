@@ -1,6 +1,6 @@
 // src/pages/Invoices.tsx
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AnimatedPage from '../components/AnimatedPage';
@@ -26,6 +26,9 @@ function Invoices() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [showForm, setShowForm] = useState<boolean>(false);
+  const [payingInvoiceId, setPayingInvoiceId] = useState<number | null>(null);
+  const [paymentAmount, setPaymentAmount] = useState<number>(0);
+  const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
 
   useEffect(() => {
     fetchInvoices();
@@ -57,6 +60,73 @@ function Invoices() {
     fetchInvoices();
   };
 
+  // ✅ NEW: Handle payment
+  const handlePay = async (invoiceId: number) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setError('Please login first');
+      return;
+    }
+
+    setPayingInvoiceId(invoiceId);
+    try {
+      const invoice = invoices.find(i => i.id === invoiceId);
+      if (!invoice) return;
+
+      // Send the full amount (or use a custom amount)
+      await axios.post(
+        `${API_URL}/invoices/${invoiceId}/pay`,
+        invoice.totalAmount, // Pay full amount
+        {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      await fetchInvoices();
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to process payment');
+    } finally {
+      setPayingInvoiceId(null);
+    }
+  };
+
+  // ✅ NEW: Handle partial payment
+  const handlePartialPay = async (invoiceId: number) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setError('Please login first');
+      return;
+    }
+
+    if (paymentAmount <= 0) {
+      setError('Amount must be greater than 0');
+      return;
+    }
+
+    setPayingInvoiceId(invoiceId);
+    try {
+      await axios.post(
+        `${API_URL}/invoices/${invoiceId}/pay`,
+        paymentAmount,
+        {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      setShowPaymentModal(false);
+      setPaymentAmount(0);
+      await fetchInvoices();
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to process payment');
+    } finally {
+      setPayingInvoiceId(null);
+    }
+  };
+
   if (loading) return <LoadingSpinner size={60} />;
 
   return (
@@ -83,12 +153,68 @@ function Invoices() {
             <p>💰 ${invoice.totalAmount.toFixed(2)}</p>
             <p className="small">Created: {new Date(invoice.createdAt).toLocaleDateString()}</p>
             <p className="small">By: {invoice.createdByUsername}</p>
+            
+            {/* ✅ NEW: Pay button */}
+            {!invoice.isPaid && (
+              <div className="invoice-actions">
+                <button 
+                  className="btn-pay"
+                  onClick={() => handlePay(invoice.id)}
+                  disabled={payingInvoiceId === invoice.id}
+                >
+                  {payingInvoiceId === invoice.id ? 'Processing...' : '💳 Pay Full'}
+                </button>
+                <button 
+                  className="btn-partial"
+                  onClick={() => {
+                    setShowPaymentModal(true);
+                    setPaymentAmount(invoice.totalAmount);
+                  }}
+                >
+                  💰 Partial Pay
+                </button>
+              </div>
+            )}
           </AnimatedCard>
         ))}
       </div>
 
       {showForm && (
         <InvoiceForm onClose={() => setShowForm(false)} onSuccess={handleFormSuccess} />
+      )}
+
+      {/* ✅ NEW: Partial Payment Modal */}
+      {showPaymentModal && (
+        <div className="modal-overlay" onClick={() => setShowPaymentModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>💰 Partial Payment</h3>
+              <button className="modal-close" onClick={() => setShowPaymentModal(false)}>✕</button>
+            </div>
+            <div className="modal-body">
+              <label>Enter Amount</label>
+              <input
+                type="number"
+                step="0.01"
+                min="0.01"
+                value={paymentAmount}
+                onChange={(e) => setPaymentAmount(Number(e.target.value))}
+                className="payment-input"
+              />
+              <div className="modal-actions">
+                <button className="btn-secondary" onClick={() => setShowPaymentModal(false)}>
+                  Cancel
+                </button>
+                <button 
+                  className="btn-primary" 
+                  onClick={() => handlePartialPay(showPaymentModal ? 1 : 0)}
+                >
+                  Pay ${paymentAmount.toFixed(2)}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </AnimatedPage>
   );
