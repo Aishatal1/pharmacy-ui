@@ -1,14 +1,13 @@
 // src/pages/Customers.tsx
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AnimatedPage from '../components/AnimatedPage';
 import AnimatedCard from '../components/AnimatedCard';
 import CustomerForm from '../components/CustomerForm';
+import API_URL from '../config/api';
 import './Customers.css';
-
-const API_URL = 'http://localhost:5103';
 
 interface Customer {
   id: number;

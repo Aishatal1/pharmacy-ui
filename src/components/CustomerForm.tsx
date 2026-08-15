@@ -4,8 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingSpinner from './LoadingSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const API_URL = 'http://localhost:5103';
+import API_URL from '../config/api';
 
 interface Customer {
   id: number;

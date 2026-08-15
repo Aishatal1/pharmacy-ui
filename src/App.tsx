@@ -1,13 +1,12 @@
 // src/App.tsx
 
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 import Customers from './pages/Customers';
 import Products from './pages/Products';
-
-const API_URL = 'http://localhost:5103';
+import API_URL from './config/api';
 
 // --- TYPES ---
 interface User {

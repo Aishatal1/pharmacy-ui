@@ -1,14 +1,13 @@
 // src/pages/Products.tsx
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AnimatedPage from '../components/AnimatedPage';
 import AnimatedCard from '../components/AnimatedCard';
 import ProductForm from '../components/ProductForm';
+import API_URL from '../config/api';
 import './Products.css';
-
-const API_URL = 'http://localhost:5103';
 
 interface Product {
   id: number;
