@@ -8,6 +8,7 @@ import Customers from './pages/Customers';
 import Products from './pages/Products';
 import API_URL from './config/api';
 import Invoices from './pages/Invoices';
+import Dashboard from './pages/Dashboard';
 
 // --- TYPES ---
 interface User {
@@ -184,6 +185,7 @@ function App() {
             <Link to="/customers">👥 Customers</Link>
             <Link to="/products">📦 Products</Link>
             <Link to="/invoices">📄 Invoices</Link>
+            <Link to="/dashboard">📊 Dashboard</Link>
           </div>
           <div className="nav-user">
             <span>👋 {user.fullName}</span>
@@ -198,6 +200,7 @@ function App() {
             <Route path="/customers" element={<Customers />} />
             <Route path="/products" element={<Products />} />
             <Route path="/invoices" element={<Invoices />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
         </div>
       </div>

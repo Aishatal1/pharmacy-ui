@@ -56,3 +56,36 @@ export interface InvoiceDetail extends Invoice {
     payments: any[];
   };
 }
+
+
+export interface SalesSummary {
+  date: string;
+  totalInvoices: number;
+  totalItemsSold: number;
+  totalRevenue: number;
+  averageInvoiceValue: number;
+  topProducts: TopProduct[];
+  salesByHour: SalesByHour[];
+  isValid: boolean;
+  validationMessages: string[];
+}
+
+export interface TopProduct {
+  productId: number;
+  productName: string;
+  quantitySold: number;
+  revenue: number;
+}
+
+export interface SalesByHour {
+  hour: number;
+  invoices: number;
+  revenue: number;
+}
+
+export interface SalesRange {
+  date: string;
+  totalInvoices: number;
+  totalRevenue: number;
+  totalItems: number;
+}
