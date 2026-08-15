@@ -198,6 +198,7 @@ function App() {
             <Route path="/customers" element={<Customers />} />
             <Route path="/products" element={<Products />} />
             <Route path="/invoices" element={<Invoices />} />
+            </Routes>
         </div>
       </div>
     </BrowserRouter>
