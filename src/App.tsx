@@ -7,6 +7,7 @@ import './App.css';
 import Customers from './pages/Customers';
 import Products from './pages/Products';
 import API_URL from './config/api';
+import Invoices from './pages/Invoices';
 
 // --- TYPES ---
 interface User {
@@ -196,8 +197,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/invoices" element={<div>📄 Invoices Page</div>} />
-          </Routes>
+            <Route path="/invoices" element={<Invoices />} />
         </div>
       </div>
     </BrowserRouter>
