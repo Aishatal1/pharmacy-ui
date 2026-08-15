@@ -1,6 +1,6 @@
 // src/pages/Invoices.tsx
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AnimatedPage from '../components/AnimatedPage';
