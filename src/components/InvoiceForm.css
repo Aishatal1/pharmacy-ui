@@ -7,6 +7,19 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  /* The modal is light even when the operating system uses dark mode. */
+  color-scheme: light;
+  color: #222;
+}
+
+/* Override dark-mode native control colors within the light invoice modal. */
+.invoice-modal input,
+.invoice-modal select,
+.invoice-modal textarea,
+.invoice-modal option {
+  color: #222 !important;
+  -webkit-text-fill-color: #222;
+  background-color: #fff !important;
 }
 
 .invoice-modal-header {
