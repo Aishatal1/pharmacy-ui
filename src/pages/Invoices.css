@@ -68,19 +68,26 @@
   align-items: center;
 }
 
+.modal-large input,
+.modal-large select,
+.modal-large option {
+  background-color: #fff !important;
+  color: #222 !important;
+  -webkit-text-fill-color: #222;
+}
+
 .invoice-item-row select,
 .invoice-item-row input {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background: #fff;
-  color: #333;
 }
 
 .modal-large .form-group select,
 .modal-large .payment-input {
-  background: #fff;
-  color: #333;
+  background-color: #fff !important;
+  color: #222 !important;
+  -webkit-text-fill-color: #222;
 }
 
 .invoice-item-row button {
