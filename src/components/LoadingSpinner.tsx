@@ -9,6 +9,7 @@ interface LoadingSpinnerProps {
   loading?: boolean;
 }
 
+// Displays a configurable loading indicator, or nothing when loading is false.
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   size = 50,
   color = '#4CAF50',

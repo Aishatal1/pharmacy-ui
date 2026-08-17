@@ -1,4 +1,4 @@
-// src/types/index.ts
+// Shared TypeScript shapes matching the customer, product, invoice, and sales API data.
 
 export interface Customer {
   id: number;

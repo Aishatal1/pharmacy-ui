@@ -21,6 +21,7 @@ interface Invoice {
   items: any[];
 }
 
+// Displays invoices and coordinates invoice creation and payment actions.
 function Invoices() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,6 +35,7 @@ function Invoices() {
     fetchInvoices();
   }, []);
 
+  // Retrieves the latest invoice list from the authenticated API.
   const fetchInvoices = async () => {
     setLoading(true);
     const token = localStorage.getItem('token');
@@ -55,12 +57,14 @@ function Invoices() {
     }
   };
 
+  // Closes the creation modal and refreshes invoices after a new invoice is saved.
   const handleFormSuccess = () => {
     setShowForm(false);
     fetchInvoices();
   };
 
   // ✅ NEW: Handle payment
+  // Submits a payment for the full outstanding invoice amount.
   const handlePay = async (invoiceId: number) => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -93,6 +97,7 @@ function Invoices() {
   };
 
   // ✅ NEW: Handle partial payment
+  // Submits the amount entered in the partial-payment modal for an invoice.
   const handlePartialPay = async (invoiceId: number) => {
     const token = localStorage.getItem('token');
     if (!token) {

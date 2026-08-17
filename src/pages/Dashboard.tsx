@@ -5,21 +5,23 @@ import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AnimatedPage from '../components/AnimatedPage';
 import AnimatedCard from '../components/AnimatedCard';
-import type { SalesSummary, SalesRange } from '../types';
-import './Dashboard.css';
+import type { SalesSummary, SalesRange } from '../types';import './Dashboard.css';
 
 const API_URL = 'https://pharmacy-api-nig8.onrender.com';
 
+// Fetches and presents current sales totals, top products, and recent sales trends.
 function Dashboard() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [todaySales, setTodaySales] = useState<SalesSummary | null>(null);
   const [rangeSales, setRangeSales] = useState<SalesRange[]>([]);
+  const [selectedRange, setSelectedRange] = useState<'week' | 'month'>('week');
 
   useEffect(() => {
     fetchDashboardData();
   }, []);
 
+  // Loads today's sales summary and the sales range used for the trend chart.
   const fetchDashboardData = async () => {
     setLoading(true);
     const token = localStorage.getItem('token');
@@ -58,10 +60,6 @@ function Dashboard() {
   };
 
   if (loading) return <LoadingSpinner size={60} />;
-
-  if (error) {
-    return <div className="dashboard-container">{error}</div>;
-  }
 
   const totalRevenue = todaySales?.totalRevenue || 0;
   const totalInvoices = todaySales?.totalInvoices || 0;

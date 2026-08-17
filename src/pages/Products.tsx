@@ -31,6 +31,7 @@ interface ProductsResponse {
   };
 }
 
+// Displays paginated products and coordinates product CRUD actions.
 function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -45,6 +46,7 @@ function Products() {
     fetchProducts(currentPage);
   }, [currentPage]);
 
+  // Retrieves one page of products from the authenticated API.
   const fetchProducts = async (page: number = 1) => {
     setLoading(true);
     const token = localStorage.getItem('token');
@@ -72,6 +74,7 @@ function Products() {
     }
   };
 
+  // Confirms and deletes a product, then reloads the current page.
   const handleDelete = async (id: number) => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     
@@ -90,16 +93,19 @@ function Products() {
     }
   };
 
+  // Opens the form modal pre-filled with the product being edited.
   const handleEdit = (product: Product) => {
     setEditingProduct(product);
     setShowForm(true);
   };
 
+  // Closes the form modal and clears any selected product.
   const handleFormClose = () => {
     setShowForm(false);
     setEditingProduct(null);
   };
 
+  // Closes the form modal and reloads products after a successful save.
   const handleFormSuccess = () => {
     setShowForm(false);
     setEditingProduct(null);

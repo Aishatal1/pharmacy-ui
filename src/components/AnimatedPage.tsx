@@ -8,6 +8,7 @@ interface AnimatedPageProps {
   className?: string;
 }
 
+// Animates a page into and out of view while rendering its contents.
 const AnimatedPage: React.FC<AnimatedPageProps> = ({ children, className }) => {
   return (
     <motion.div

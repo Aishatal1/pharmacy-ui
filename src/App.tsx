@@ -26,6 +26,7 @@ interface LoginResponse {
 }
 
 // --- Login Component ---
+// Renders login and registration forms and reports a successfully authenticated user upward.
 function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -36,6 +37,7 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
   const [role, setRole] = useState<string>('Admin');
   const [success, setSuccess] = useState<string>('');
 
+  // Registers a new user, then switches the form back to login mode.
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -62,6 +64,7 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
     }
   };
 
+  // Authenticates the user, saves the returned token, and starts the app session.
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -140,6 +143,7 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
 }
 
 // --- Home Page ---
+// Renders the simple landing page shown at the root route after login.
 function HomePage() {
   return (
     <div className="home-page">
@@ -156,13 +160,16 @@ function HomePage() {
 }
 
 // --- MAIN APP ---
+// Chooses between authentication and the protected application routes.
 function App() {
   const [user, setUser] = useState<User | null>(null);
 
+  // Stores the authenticated user in application state.
   const handleLogin = (user: User) => {
     setUser(user);
   };
 
+  // Removes the saved token and returns the user to the login screen.
   const handleLogout = () => {
     localStorage.removeItem('token');
     setUser(null);

@@ -9,6 +9,7 @@ interface AnimatedCardProps {
   className?: string;
 }
 
+// Animates a card when it appears and gives it a subtle hover effect.
 const AnimatedCard: React.FC<AnimatedCardProps> = ({ 
   children, 
   delay = 0,

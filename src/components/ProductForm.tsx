@@ -24,6 +24,7 @@ interface ProductFormProps {
   onSuccess: () => void;
 }
 
+// Renders a modal for creating a product or editing the supplied product.
 const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     barcode: '',
@@ -49,11 +50,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, onSuccess }
     }
   }, [product]);
 
+  // Copies a changed input value into the form state, converting prices to numbers.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.name === 'price' ? parseFloat(e.target.value) : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
   };
 
+  // Creates or updates the product, then refreshes the parent page on success.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);

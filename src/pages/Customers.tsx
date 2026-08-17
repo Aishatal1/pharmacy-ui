@@ -28,6 +28,7 @@ interface CustomersResponse {
   };
 }
 
+// Displays paginated customers and coordinates customer CRUD actions.
 function Customers() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -42,6 +43,7 @@ function Customers() {
     fetchCustomers(currentPage);
   }, [currentPage]);
 
+  // Retrieves one page of customers from the authenticated API.
   const fetchCustomers = async (page: number = 1) => {
     setLoading(true);
     const token = localStorage.getItem('token');
@@ -69,6 +71,7 @@ function Customers() {
     }
   };
 
+  // Confirms and deletes a customer, then reloads the current page.
   const handleDelete = async (id: number) => {
     if (!window.confirm('Are you sure you want to delete this customer?')) return;
     
@@ -87,16 +90,19 @@ function Customers() {
     }
   };
 
+  // Opens the form modal pre-filled with the customer being edited.
   const handleEdit = (customer: Customer) => {
     setEditingCustomer(customer);
     setShowForm(true);
   };
 
+  // Closes the form modal and clears any selected customer.
   const handleFormClose = () => {
     setShowForm(false);
     setEditingCustomer(null);
   };
 
+  // Closes the form modal and reloads customers after a successful save.
   const handleFormSuccess = () => {
     setShowForm(false);
     setEditingCustomer(null);

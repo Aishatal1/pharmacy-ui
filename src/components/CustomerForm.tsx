@@ -21,6 +21,7 @@ interface CustomerFormProps {
   onSuccess: () => void;
 }
 
+// Renders a modal for creating a customer or editing the supplied customer.
 const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -40,10 +41,12 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onClose, onSucces
     }
   }, [customer]);
 
+  // Copies a changed input value into the form state.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Creates or updates the customer, then refreshes the parent page on success.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
