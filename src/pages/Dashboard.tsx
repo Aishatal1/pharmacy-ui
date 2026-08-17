@@ -15,7 +15,6 @@ function Dashboard() {
   const [error, setError] = useState<string>('');
   const [todaySales, setTodaySales] = useState<SalesSummary | null>(null);
   const [rangeSales, setRangeSales] = useState<SalesRange[]>([]);
-  const [selectedRange, setSelectedRange] = useState<'week' | 'month'>('week');
 
   useEffect(() => {
     fetchDashboardData();
@@ -60,6 +59,10 @@ function Dashboard() {
   };
 
   if (loading) return <LoadingSpinner size={60} />;
+
+  if (error) {
+    return <div className="dashboard-container">{error}</div>;
+  }
 
   const totalRevenue = todaySales?.totalRevenue || 0;
   const totalInvoices = todaySales?.totalInvoices || 0;
