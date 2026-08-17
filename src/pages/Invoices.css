@@ -55,6 +55,9 @@
 
 .modal-large {
   max-width: 700px;
+  /* Keep native form controls readable inside the white invoice modal. */
+  color-scheme: light;
+  color: #333;
 }
 
 .invoice-item-row {
@@ -70,6 +73,14 @@
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  background: #fff;
+  color: #333;
+}
+
+.modal-large .form-group select,
+.modal-large .payment-input {
+  background: #fff;
+  color: #333;
 }
 
 .invoice-item-row button {
@@ -135,4 +146,3 @@
   outline: none;
   border-color: #27ae60;
 }
-
