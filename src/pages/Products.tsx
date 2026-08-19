@@ -49,7 +49,6 @@ function Products() {
   // Retrieves one page of products from the authenticated API.
   const fetchProducts = async (page: number = 1) => {
     setLoading(true);
-    const token = localStorage.getItem('token');
     if (!token) {
       setError('Please login first');
       setLoading(false);
@@ -79,7 +78,6 @@ function Products() {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     
     setIsDeleting(id);
-    const token = localStorage.getItem('token');
     
      {
       setIsDeleting(null);

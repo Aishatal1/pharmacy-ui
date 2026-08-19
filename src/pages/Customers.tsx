@@ -8,7 +8,6 @@ import AnimatedCard from '../components/AnimatedCard';
 import CustomerForm from '../components/CustomerForm';
 import API_URL from '../config/api';
 import './Customers.css';
-import { getErrorMessage } from '../utils/errorHandlers';
 
 interface Customer {
   id: number;
@@ -47,7 +46,6 @@ function Customers() {
   // Retrieves one page of customers from the authenticated API.
   const fetchCustomers = async (page: number = 1) => {
     setLoading(true);
-    const token = localStorage.getItem('token');
     if (!token) {
       setError('Please login first');
       setLoading(false);
@@ -77,7 +75,6 @@ function Customers() {
     if (!window.confirm('Are you sure you want to delete this customer?')) return;
     
     setIsDeleting(id);
-    const token = localStorage.getItem('token');
     
  {
       setIsDeleting(null);
