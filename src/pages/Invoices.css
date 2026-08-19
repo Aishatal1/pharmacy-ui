@@ -3,7 +3,9 @@
   margin: 0 auto;
   padding: 20px;
 }
-
+.invoices-container h2{
+color : black;
+}
 .invoices-header {
   display: flex;
   justify-content: space-between;

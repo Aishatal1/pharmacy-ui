@@ -42,7 +42,6 @@
   position: relative;
 }
 
-h2{
-
-  color : black;
+.dashboard-container h2 {
+  color: #2c3e50;
 }

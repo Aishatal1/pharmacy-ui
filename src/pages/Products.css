@@ -5,6 +5,9 @@
   margin: 0 auto;
   padding: 20px;
 }
+.products-container h2{
+  color : black
+}
 
 .products-header {
   display: flex;
