@@ -36,16 +36,21 @@
   cursor: pointer;
   font-size: 13px;
   transition: all 0.2s;
+  color : black;
 }
 
 .period-selector button:hover {
   background: rgba(0,0,0,0.05);
+    color : black;
+
 }
 
 .period-selector button.active {
-  background: white;
+  background: rgb(18, 105, 7);
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   font-weight: 500;
+  color : black;
+
 }
 
 /* Summary Cards */
