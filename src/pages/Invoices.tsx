@@ -31,6 +31,7 @@ function Invoices() {
   const [payingInvoiceId, setPayingInvoiceId] = useState<number | null>(null);
   const [paymentAmount, setPaymentAmount] = useState<number>(0);
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
+  const [currentInvoiceId, setCurrentInvoiceId] = useState<number | null>(null);
    const navigate = useNavigate(); 
   useEffect(() => {
     fetchInvoices();
@@ -173,8 +174,9 @@ function Invoices() {
                 <button 
                   className="btn-partial"
                   onClick={() => {
-                    setShowPaymentModal(true);
+                    setCurrentInvoiceId(invoice.id);  // ← Store the invoice ID
                     setPaymentAmount(invoice.totalAmount);
+                    setShowPaymentModal(true);
                   }}
                 >
                   💰 Partial Pay
