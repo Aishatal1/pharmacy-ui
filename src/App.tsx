@@ -146,7 +146,7 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
 // --- MAIN APP ---
 function App() {
   const [user, setUser] = useState<User | null>(null);
-
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false); 
   const handleLogin = (user: User) => {
     setUser(user);
   };
@@ -164,41 +164,62 @@ function App() {
     <BrowserRouter>
       <div className="app">
         {/* ✅ SINGLE NAVBAR - THE NEW ONE */}
-        <nav className="navbar">
+                <nav className="navbar">
           <div className="nav-brand">
             <span className="brand-icon">💊</span>
             <span className="brand-text">Pharmacy</span>
           </div>
-          <div className="nav-links">
-            
+
+          {/* ✅ Hamburger Button */}
+          <button 
+            className={`hamburger ${isMenuOpen ? 'active' : ''}`}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          {/* ✅ Nav Links with conditional class */}
+          <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
+            <NavLink 
+              to="/" 
+              className={({ isActive }) => isActive ? 'active' : ''}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className="nav-icon">📊</span> Dashboard
+            </NavLink>
             <NavLink 
               to="/customers" 
               className={({ isActive }) => isActive ? 'active' : ''}
+              onClick={() => setIsMenuOpen(false)}
             >
               <span className="nav-icon">👥</span> Customers
             </NavLink>
             <NavLink 
               to="/products" 
               className={({ isActive }) => isActive ? 'active' : ''}
+              onClick={() => setIsMenuOpen(false)}
             >
               <span className="nav-icon">📦</span> Products
             </NavLink>
             <NavLink 
               to="/invoices" 
               className={({ isActive }) => isActive ? 'active' : ''}
+              onClick={() => setIsMenuOpen(false)}
             >
               <span className="nav-icon">📄</span> Invoices
             </NavLink>
-            <NavLink to="/bank-statement" className={({ isActive }) => isActive ? 'active' : ''}>
+            <NavLink 
+              to="/bank-statement" 
+              className={({ isActive }) => isActive ? 'active' : ''}
+              onClick={() => setIsMenuOpen(false)}
+            >
               <span className="nav-icon">🏦</span> Statement
             </NavLink>
-            <NavLink 
-              to="/" 
-              className={({ isActive }) => isActive ? 'active' : ''}
-            >
-              <span className="nav-icon">📊</span> Dashboard
-            </NavLink>
           </div>
+
           <div className="nav-user">
             <span className="user-name">👋 {user.fullName}</span>
             <button className="logout-btn" onClick={handleLogout}>Logout</button>

@@ -155,3 +155,102 @@ color : black;
   outline: none;
   border-color: #27ae60;
 }
+/* src/pages/Invoices.css */
+
+.invoices-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.invoices-header h2 {
+  font-size: 24px;
+  color: #2c3e50;
+  margin: 0;
+}
+
+/* ✅ Make sure the button is always visible */
+.invoices-header .btn-primary {
+  flex-shrink: 0; /* Prevents button from shrinking */
+  padding: 10px 20px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.invoices-header .btn-primary:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  .invoices-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .invoices-header h2 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .invoices-header .btn-primary {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .invoices-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .invoice-card {
+    padding: 16px;
+  }
+
+  .invoice-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .invoice-actions button {
+    width: 100%;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .invoices-header h2 {
+    font-size: 18px;
+  }
+
+  .invoices-header .btn-primary {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .invoice-card h4 {
+    font-size: 14px;
+  }
+
+  .status {
+    font-size: 10px;
+    padding: 3px 10px;
+  }
+}

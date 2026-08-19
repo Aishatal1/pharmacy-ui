@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+//import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AnimatedPage from '../components/AnimatedPage';
 import AnimatedCard from '../components/AnimatedCard';
@@ -31,6 +32,7 @@ function Invoices() {
   const [paymentAmount, setPaymentAmount] = useState<number>(0);
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   const [currentInvoiceId, setCurrentInvoiceId] = useState<number | null>(null);
+ // const navigate = useNavigate(); 
   useEffect(() => {
     fetchInvoices();
   }, []);
@@ -221,12 +223,7 @@ function Invoices() {
                 </button>
                 <button 
                   className="btn-primary" 
-                  onClick={() => {
-                    if (currentInvoiceId !== null) {
-                      handlePartialPay(currentInvoiceId);
-                    }
-                  }}
-                  disabled={currentInvoiceId === null || payingInvoiceId !== null}
+                  onClick={() => handlePartialPay(showPaymentModal ? 1 : 0)}
                 >
                   Pay ${paymentAmount.toFixed(2)}
                 </button>
