@@ -162,6 +162,11 @@ function BankStatement() {
           <p className="amount">${totalUnpaid.toFixed(2)}</p>
           <span className="period-label">{getPeriodText()}</span>
         </div>
+        <div className="summary-card invoices">
+          <h3>📄 Total Invoices</h3>
+          <p className="amount">{invoices.length}</p>
+          <span className="period-label">{getPeriodText()}</span>
+        </div>
       </div>
 
       {/* Statement Table */}
