@@ -10,6 +10,7 @@ import Invoices from './pages/Invoices';
 import Dashboard from './pages/Dashboard';
 import { getErrorMessage } from './utils/errorHandlers';
 import CreateInvoice from './pages/CreateInvoice';
+import BankStatement from './pages/BankStatement';
 
 const API_URL = 'https://pharmacy-api-nig8.onrender.com';
 
@@ -169,12 +170,7 @@ function App() {
             <span className="brand-text">Pharmacy</span>
           </div>
           <div className="nav-links">
-            <NavLink 
-              to="/" 
-              className={({ isActive }) => isActive ? 'active' : ''}
-            >
-              <span className="nav-icon">📊</span> Dashboard
-            </NavLink>
+            
             <NavLink 
               to="/customers" 
               className={({ isActive }) => isActive ? 'active' : ''}
@@ -193,6 +189,15 @@ function App() {
             >
               <span className="nav-icon">📄</span> Invoices
             </NavLink>
+            <NavLink to="/bank-statement" className={({ isActive }) => isActive ? 'active' : ''}>
+              <span className="nav-icon">🏦</span> Statement
+            </NavLink>
+            <NavLink 
+              to="/" 
+              className={({ isActive }) => isActive ? 'active' : ''}
+            >
+              <span className="nav-icon">📊</span> Dashboard
+            </NavLink>
           </div>
           <div className="nav-user">
             <span className="user-name">👋 {user.fullName}</span>
@@ -208,6 +213,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/invoices/create" element={<CreateInvoice />} />
+            <Route path="/bank-statement" element={<BankStatement />} />
           </Routes>
         </div>
       </div>

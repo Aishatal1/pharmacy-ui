@@ -1,0 +1,193 @@
+/* src/pages/BankStatement.css */
+
+.bank-statement-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.statement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.statement-header h2 {
+  color: #2c3e50;
+  margin: 0;
+}
+
+.period-selector {
+  display: flex;
+  gap: 4px;
+  background: #f0f2f5;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.period-selector button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.period-selector button:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+.period-selector button.active {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-weight: 500;
+}
+
+/* Summary Cards */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.summary-card h3 {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.summary-card .amount {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.summary-card .period-label {
+  font-size: 12px;
+  color: #999;
+}
+
+.summary-card.revenue .amount {
+  color: #2c3e50;
+}
+
+.summary-card.paid .amount {
+  color: #27ae60;
+}
+
+.summary-card.unpaid .amount {
+  color: #e67e22;
+}
+
+/* Statement Table */
+.statement-table-wrapper {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.statement-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.statement-table th {
+  padding: 14px 16px;
+  text-align: left;
+  background: #f8f9fa;
+  color: #555;
+  font-weight: 600;
+  font-size: 13px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.statement-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+
+.statement-table tr:last-child td {
+  border-bottom: none;
+}
+
+.id-cell {
+  font-family: monospace;
+  font-size: 13px;
+  color: #888;
+}
+
+.type-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.type-badge.payment {
+  background: #d4edda;
+  color: #155724;
+}
+
+.type-badge.invoice {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.type-badge.refund {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.amount-cell.positive {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.amount-cell.negative {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.balance-cell {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .statement-table-wrapper {
+    overflow-x: auto;
+  }
+  
+  .statement-table th,
+  .statement-table td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  
+  .summary-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
