@@ -140,9 +140,17 @@ function Invoices() {
     <AnimatedPage className="invoices-container">
       <div className="invoices-header">
         <h2>📄 Invoices</h2>
-         <button className="btn-primary" onClick={() => navigate('/invoices/create')}>
-    ➕ Create Invoice
-  </button>
+         <button 
+            className="btn-primary" 
+            onClick={() => {
+              if (currentInvoiceId) {
+                handlePartialPay(currentInvoiceId);
+              }
+            }}
+            disabled={!currentInvoiceId}
+          >
+            Pay ${paymentAmount.toFixed(2)}
+          </button>
       </div>
 
       {error && <div className="error">{error}</div>}
