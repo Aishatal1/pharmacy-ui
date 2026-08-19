@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AnimatedPage from '../components/AnimatedPage';
 import AnimatedCard from '../components/AnimatedCard';
-import InvoiceForm from '../components/InvoiceForm';
 import './Invoices.css';
 
 const API_URL = 'https://pharmacy-api-nig8.onrender.com';
@@ -22,22 +21,20 @@ interface Invoice {
   items: any[];
 }
 
-// Displays invoices and coordinates invoice creation and payment actions.
 function Invoices() {
+  const navigate = useNavigate();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
-  const [showForm, setShowForm] = useState<boolean>(false);
   const [payingInvoiceId, setPayingInvoiceId] = useState<number | null>(null);
   const [paymentAmount, setPaymentAmount] = useState<number>(0);
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   const [currentInvoiceId, setCurrentInvoiceId] = useState<number | null>(null);
- // const navigate = useNavigate(); 
+
   useEffect(() => {
     fetchInvoices();
   }, []);
 
-  // Retrieves the latest invoice list from the authenticated API.
   const fetchInvoices = async () => {
     setLoading(true);
     const token = localStorage.getItem('token');
@@ -59,14 +56,6 @@ function Invoices() {
     }
   };
 
-  // Closes the creation modal and refreshes invoices after a new invoice is saved.
-  const handleFormSuccess = () => {
-    setShowForm(false);
-    fetchInvoices();
-  };
-
-  // ✅ NEW: Handle payment
-  // Submits a payment for the full outstanding invoice amount.
   const handlePay = async (invoiceId: number) => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -79,10 +68,9 @@ function Invoices() {
       const invoice = invoices.find(i => i.id === invoiceId);
       if (!invoice) return;
 
-      // Send the full amount (or use a custom amount)
       await axios.post(
         `${API_URL}/invoices/${invoiceId}/pay`,
-        invoice.totalAmount, // Pay full amount
+        invoice.totalAmount,
         {
           headers: { 
             Authorization: `Bearer ${token}`,
@@ -98,8 +86,6 @@ function Invoices() {
     }
   };
 
-  // ✅ NEW: Handle partial payment
-  // Submits the amount entered in the partial-payment modal for an invoice.
   const handlePartialPay = async (invoiceId: number) => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -138,19 +124,15 @@ function Invoices() {
 
   return (
     <AnimatedPage className="invoices-container">
+      {/* ✅ Header with Create Invoice Button */}
       <div className="invoices-header">
         <h2>📄 Invoices</h2>
-         <button 
-            className="btn-primary" 
-            onClick={() => {
-              if (currentInvoiceId) {
-                handlePartialPay(currentInvoiceId);
-              }
-            }}
-            disabled={!currentInvoiceId}
-          >
-            Pay ${paymentAmount.toFixed(2)}
-          </button>
+        <button 
+          className="btn-primary" 
+          onClick={() => navigate('/invoices/create')}
+        >
+          ➕ Create Invoice
+        </button>
       </div>
 
       {error && <div className="error">{error}</div>}
@@ -169,7 +151,6 @@ function Invoices() {
             <p className="small">Created: {new Date(invoice.createdAt).toLocaleDateString()}</p>
             <p className="small">By: {invoice.createdByUsername}</p>
             
-            {/* ✅ NEW: Pay button */}
             {!invoice.isPaid && (
               <div className="invoice-actions">
                 <button 
@@ -182,7 +163,7 @@ function Invoices() {
                 <button 
                   className="btn-partial"
                   onClick={() => {
-                    setCurrentInvoiceId(invoice.id);  // ← Store the invoice ID
+                    setCurrentInvoiceId(invoice.id);
                     setPaymentAmount(invoice.totalAmount);
                     setShowPaymentModal(true);
                   }}
@@ -195,11 +176,7 @@ function Invoices() {
         ))}
       </div>
 
-      {showForm && (
-        <InvoiceForm onClose={() => setShowForm(false)} onSuccess={handleFormSuccess} />
-      )}
-
-      {/* ✅ NEW: Partial Payment Modal */}
+      {/* Partial Payment Modal */}
       {showPaymentModal && (
         <div className="modal-overlay" onClick={() => setShowPaymentModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -223,7 +200,12 @@ function Invoices() {
                 </button>
                 <button 
                   className="btn-primary" 
-                  onClick={() => handlePartialPay(showPaymentModal ? 1 : 0)}
+                  onClick={() => {
+                    if (currentInvoiceId) {
+                      handlePartialPay(currentInvoiceId);
+                    }
+                  }}
+                  disabled={!currentInvoiceId || paymentAmount <= 0}
                 >
                   Pay ${paymentAmount.toFixed(2)}
                 </button>
