@@ -27,6 +27,7 @@
   font-size: 14px;
   background: white;
   cursor: pointer;
+  color : gray;
 }
 
 .month-picker:focus {
