@@ -32,7 +32,6 @@ function Invoices() {
   const [paymentAmount, setPaymentAmount] = useState<number>(0);
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   const [currentInvoiceId, setCurrentInvoiceId] = useState<number | null>(null);
-   const navigate = useNavigate(); 
   useEffect(() => {
     fetchInvoices();
   }, []);
