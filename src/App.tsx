@@ -179,7 +179,7 @@ function App() {
           {/* ✅ Hamburger Button */}
           <button 
             className={`hamburger ${isMenuOpen ? 'active' : ''}`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
             aria-label="Toggle menu"
           >
             <span></span>
