@@ -4,6 +4,7 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 20px;
+  color-scheme: light;
 }
 
 .invoice-page-header {
@@ -20,9 +21,20 @@
 
 .invoice-form {
   background: white;
+  color: #222;
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* This page uses a light form even when the device is in dark mode. */
+.create-invoice-page input,
+.create-invoice-page select,
+.create-invoice-page textarea,
+.create-invoice-page option {
+  color: #222;
+  -webkit-text-fill-color: #222;
+  background-color: #fff;
 }
 
 /* Customer Section */
