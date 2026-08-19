@@ -38,6 +38,7 @@ function Customers() {
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     fetchCustomers(currentPage);
