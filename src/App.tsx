@@ -8,9 +8,9 @@ import Customers from './pages/Customers';
 import Products from './pages/Products';
 import Invoices from './pages/Invoices';
 import Dashboard from './pages/Dashboard';
-import { getErrorMessage } from './utils/errorHandlers';
-import CreateInvoice from './pages/CreateInvoice';
 import BankStatement from './pages/BankStatement';
+import CreateInvoice from './pages/CreateInvoice';
+import { getErrorMessage } from './utils/errorHandlers';
 
 const API_URL = 'https://pharmacy-api-nig8.onrender.com';
 
@@ -146,7 +146,8 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
 // --- MAIN APP ---
 function App() {
   const [user, setUser] = useState<User | null>(null);
-    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false); 
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false); // ✅ State for hamburger
+
   const handleLogin = (user: User) => {
     setUser(user);
   };
@@ -156,6 +157,11 @@ function App() {
     setUser(null);
   };
 
+  // ✅ Close menu when a link is clicked
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   if (!user) {
     return <LoginPage onLogin={handleLogin} />;
   }
@@ -163,8 +169,8 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app">
-        {/* ✅ SINGLE NAVBAR - THE NEW ONE */}
-                <nav className="navbar">
+        {/* ✅ Navbar with Hamburger */}
+        <nav className="navbar">
           <div className="nav-brand">
             <span className="brand-icon">💊</span>
             <span className="brand-text">Pharmacy</span>
@@ -181,40 +187,40 @@ function App() {
             <span></span>
           </button>
 
-          {/* ✅ Nav Links with conditional class */}
+          {/* ✅ Nav Links */}
           <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
             <NavLink 
               to="/" 
               className={({ isActive }) => isActive ? 'active' : ''}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
             >
               <span className="nav-icon">📊</span> Dashboard
             </NavLink>
             <NavLink 
               to="/customers" 
               className={({ isActive }) => isActive ? 'active' : ''}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
             >
               <span className="nav-icon">👥</span> Customers
             </NavLink>
             <NavLink 
               to="/products" 
               className={({ isActive }) => isActive ? 'active' : ''}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
             >
               <span className="nav-icon">📦</span> Products
             </NavLink>
             <NavLink 
               to="/invoices" 
               className={({ isActive }) => isActive ? 'active' : ''}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
             >
               <span className="nav-icon">📄</span> Invoices
             </NavLink>
             <NavLink 
               to="/bank-statement" 
               className={({ isActive }) => isActive ? 'active' : ''}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
             >
               <span className="nav-icon">🏦</span> Statement
             </NavLink>
