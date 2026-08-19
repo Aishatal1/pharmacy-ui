@@ -1,5 +1,6 @@
 // src/pages/Dashboard.tsx
 
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -142,6 +143,10 @@ function Dashboard() {
   };
 
   if (loading) return <LoadingSpinner size={60} />;
+
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
 
   const totalRevenue = todaySales?.totalRevenue || 0;
   const totalInvoices = todaySales?.totalInvoices || 0;

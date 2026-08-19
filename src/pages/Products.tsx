@@ -33,6 +33,7 @@ interface ProductsResponse {
 
 // Displays paginated products and coordinates product CRUD actions.
 function Products() {
+  const token = localStorage.getItem('token');
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
