@@ -4,7 +4,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingSpinner from './LoadingSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import API_URL from '../config/api';
+import { getErrorMessage } from '../utils/errorHandlers';
+
+const API_URL = 'https://pharmacy-api-nig8.onrender.com';
 
 interface Product {
   id: number;
@@ -24,7 +26,6 @@ interface ProductFormProps {
   onSuccess: () => void;
 }
 
-// Renders a modal for creating a product or editing the supplied product.
 const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     barcode: '',
@@ -50,13 +51,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, onSuccess }
     }
   }, [product]);
 
-  // Copies a changed input value into the form state, converting prices to numbers.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.name === 'price' ? parseFloat(e.target.value) : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
   };
 
-  // Creates or updates the product, then refreshes the parent page on success.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -65,6 +64,27 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, onSuccess }
     const token = localStorage.getItem('token');
     if (!token) {
       setError('Please login first');
+      setLoading(false);
+      return;
+    }
+
+    // ✅ Frontend validation - INSIDE the function
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    const productionDate = new Date(formData.productionDate);
+    const expirationDate = new Date(formData.expirationDate);
+
+    // Check if expiration date is in the future
+    if (expirationDate <= today) {
+      setError('❌ Expiration date must be in the future!');
+      setLoading(false);
+      return;
+    }
+
+    // Check if expiration date is after production date
+    if (expirationDate <= productionDate) {
+      setError('❌ Expiration date must be after production date!');
       setLoading(false);
       return;
     }
@@ -87,7 +107,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, onSuccess }
       }
       onSuccess();
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to save product');
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -160,12 +180,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, onSuccess }
             </div>
 
             <div className="form-group">
-              <label>Expiration Date</label>
+              <label>Expiration Date *</label>
               <input
                 type="date"
                 name="expirationDate"
                 value={formData.expirationDate}
                 onChange={handleChange}
+                required
               />
             </div>
 

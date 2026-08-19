@@ -1,7 +1,7 @@
 // src/App.tsx
 
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 import Customers from './pages/Customers';
@@ -9,6 +9,7 @@ import Products from './pages/Products';
 import API_URL from './config/api';
 import Invoices from './pages/Invoices';
 import Dashboard from './pages/Dashboard';
+import { getErrorMessage } from './utils/errorHandlers';
 
 // --- TYPES ---
 interface User {
@@ -58,7 +59,7 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
       setFullName('');
       setRole('Admin');
     } catch (err) {
-      setError('Registration failed');
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -80,7 +81,7 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
       localStorage.setItem('token', token);
       onLogin(user);
     } catch (err) {
-      setError('Login failed');
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -198,8 +199,37 @@ function App() {
             <span>👋 {user.fullName}</span>
             <button className="logout-btn" onClick={handleLogout}>Logout</button>
           </div>
-        </nav>
+        </nav>// src/App.tsx – Updated Navbar
 
+<div className="nav-links">
+  <NavLink 
+    to="/" 
+    className={({ isActive }) => isActive ? 'active' : ''}
+  >
+    <span className="nav-icon">📊</span> Dashboard
+  </NavLink>
+  
+  <NavLink 
+    to="/customers" 
+    className={({ isActive }) => isActive ? 'active' : ''}
+  >
+    <span className="nav-icon">👥</span> Customers
+  </NavLink>
+  
+  <NavLink 
+    to="/products" 
+    className={({ isActive }) => isActive ? 'active' : ''}
+  >
+    <span className="nav-icon">📦</span> Products
+  </NavLink>
+  
+  <NavLink 
+    to="/invoices" 
+    className={({ isActive }) => isActive ? 'active' : ''}
+  >
+    <span className="nav-icon">📄</span> Invoices
+  </NavLink>
+</div>
         {/* Page Content */}
         <div className="page-content">
           <Routes>

@@ -5,6 +5,7 @@ import axios from 'axios';
 import LoadingSpinner from './LoadingSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
 import API_URL from '../config/api';
+import { getErrorMessage } from '../utils/errorHandlers';
 
 interface Customer {
   id: number;
@@ -77,7 +78,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ customer, onClose, onSucces
       }
       onSuccess();
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to save customer');
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }

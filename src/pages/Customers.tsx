@@ -8,6 +8,7 @@ import AnimatedCard from '../components/AnimatedCard';
 import CustomerForm from '../components/CustomerForm';
 import API_URL from '../config/api';
 import './Customers.css';
+import { getErrorMessage } from '../utils/errorHandlers';
 
 interface Customer {
   id: number;
@@ -78,14 +79,7 @@ function Customers() {
     setIsDeleting(id);
     const token = localStorage.getItem('token');
     
-    try {
-      await axios.delete(`${API_URL}/customers/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      await fetchCustomers(currentPage);
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to delete customer');
-    } finally {
+ {
       setIsDeleting(null);
     }
   };

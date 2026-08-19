@@ -5,6 +5,7 @@ import axios from 'axios';
 import LoadingSpinner from './LoadingSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
 import './InvoiceForm.css';
+import { getErrorMessage } from '../utils/errorHandlers';
 
 const API_URL = 'https://pharmacy-api-nig8.onrender.com';
 
@@ -152,7 +153,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ onClose, onSuccess }) => {
       );
       onSuccess();
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to create invoice');
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }

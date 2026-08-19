@@ -81,14 +81,7 @@ function Products() {
     setIsDeleting(id);
     const token = localStorage.getItem('token');
     
-    try {
-      await axios.delete(`${API_URL}/products/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      await fetchProducts(currentPage);
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to delete product');
-    } finally {
+     {
       setIsDeleting(null);
     }
   };
