@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AnimatedPage from '../components/AnimatedPage';
 import AnimatedCard from '../components/AnimatedCard';
@@ -30,7 +31,7 @@ function Invoices() {
   const [payingInvoiceId, setPayingInvoiceId] = useState<number | null>(null);
   const [paymentAmount, setPaymentAmount] = useState<number>(0);
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
-
+   const navigate = useNavigate(); 
   useEffect(() => {
     fetchInvoices();
   }, []);
@@ -138,9 +139,9 @@ function Invoices() {
     <AnimatedPage className="invoices-container">
       <div className="invoices-header">
         <h2>📄 Invoices</h2>
-        <button className="btn-primary" onClick={() => setShowForm(true)}>
-          ➕ Create Invoice
-        </button>
+         <button className="btn-primary" onClick={() => navigate('/invoices/create')}>
+    ➕ Create Invoice
+  </button>
       </div>
 
       {error && <div className="error">{error}</div>}

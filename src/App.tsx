@@ -1,15 +1,17 @@
 // src/App.tsx
 
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 import Customers from './pages/Customers';
 import Products from './pages/Products';
-import API_URL from './config/api';
 import Invoices from './pages/Invoices';
 import Dashboard from './pages/Dashboard';
 import { getErrorMessage } from './utils/errorHandlers';
+import CreateInvoice from './pages/CreateInvoice';
+
+const API_URL = 'https://pharmacy-api-nig8.onrender.com';
 
 // --- TYPES ---
 interface User {
@@ -27,7 +29,6 @@ interface LoginResponse {
 }
 
 // --- Login Component ---
-// Renders login and registration forms and reports a successfully authenticated user upward.
 function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -38,7 +39,6 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
   const [role, setRole] = useState<string>('Admin');
   const [success, setSuccess] = useState<string>('');
 
-  // Registers a new user, then switches the form back to login mode.
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -65,7 +65,6 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
     }
   };
 
-  // Authenticates the user, saves the returned token, and starts the app session.
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -143,102 +142,73 @@ function LoginPage({ onLogin }: { onLogin: (user: User) => void }) {
   );
 }
 
-// --- Home Page ---
-// Renders the simple landing page shown at the root route after login.
-function HomePage() {
-  return (
-    <div className="home-page">
-      <h1>🏠 Dashboard</h1>
-      <p>Welcome to the Pharmacy Management System</p>
-      <div className="dashboard-cards">
-        <div className="dash-card">👥 Customers</div>
-        <div className="dash-card">📦 Products</div>
-        <div className="dash-card">📄 Invoices</div>
-        <div className="dash-card">💰 Revenue</div>
-      </div>
-    </div>
-  );
-}
-
 // --- MAIN APP ---
-// Chooses between authentication and the protected application routes.
 function App() {
   const [user, setUser] = useState<User | null>(null);
 
-  // Stores the authenticated user in application state.
   const handleLogin = (user: User) => {
     setUser(user);
   };
 
-  // Removes the saved token and returns the user to the login screen.
   const handleLogout = () => {
     localStorage.removeItem('token');
     setUser(null);
   };
 
-  // If not logged in, show login page
   if (!user) {
     return <LoginPage onLogin={handleLogin} />;
   }
 
-  // Logged in: Show app with navigation
   return (
     <BrowserRouter>
       <div className="app">
-        {/* Navigation */}
+        {/* ✅ SINGLE NAVBAR - THE NEW ONE */}
         <nav className="navbar">
-          <div className="nav-brand">💊 Pharmacy</div>
+          <div className="nav-brand">
+            <span className="brand-icon">💊</span>
+            <span className="brand-text">Pharmacy</span>
+          </div>
           <div className="nav-links">
-            <Link to="/">🏠 Home</Link>
-            <Link to="/customers">👥 Customers</Link>
-            <Link to="/products">📦 Products</Link>
-            <Link to="/invoices">📄 Invoices</Link>
-            <Link to="/dashboard">📊 Dashboard</Link>
+            <NavLink 
+              to="/" 
+              className={({ isActive }) => isActive ? 'active' : ''}
+            >
+              <span className="nav-icon">📊</span> Dashboard
+            </NavLink>
+            <NavLink 
+              to="/customers" 
+              className={({ isActive }) => isActive ? 'active' : ''}
+            >
+              <span className="nav-icon">👥</span> Customers
+            </NavLink>
+            <NavLink 
+              to="/products" 
+              className={({ isActive }) => isActive ? 'active' : ''}
+            >
+              <span className="nav-icon">📦</span> Products
+            </NavLink>
+            <NavLink 
+              to="/invoices" 
+              className={({ isActive }) => isActive ? 'active' : ''}
+            >
+              <span className="nav-icon">📄</span> Invoices
+            </NavLink>
           </div>
           <div className="nav-user">
-            <span>👋 {user.fullName}</span>
+            <span className="user-name">👋 {user.fullName}</span>
             <button className="logout-btn" onClick={handleLogout}>Logout</button>
           </div>
-        </nav>// src/App.tsx – Updated Navbar
+        </nav>
 
-<div className="nav-links">
-  <NavLink 
-    to="/" 
-    className={({ isActive }) => isActive ? 'active' : ''}
-  >
-    <span className="nav-icon">📊</span> Dashboard
-  </NavLink>
-  
-  <NavLink 
-    to="/customers" 
-    className={({ isActive }) => isActive ? 'active' : ''}
-  >
-    <span className="nav-icon">👥</span> Customers
-  </NavLink>
-  
-  <NavLink 
-    to="/products" 
-    className={({ isActive }) => isActive ? 'active' : ''}
-  >
-    <span className="nav-icon">📦</span> Products
-  </NavLink>
-  
-  <NavLink 
-    to="/invoices" 
-    className={({ isActive }) => isActive ? 'active' : ''}
-  >
-    <span className="nav-icon">📄</span> Invoices
-  </NavLink>
-</div>
         {/* Page Content */}
         <div className="page-content">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/products" element={<Products />} />
             <Route path="/invoices" element={<Invoices />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            </Routes>
+            <Route path="/invoices/create" element={<CreateInvoice />} />
+          </Routes>
         </div>
       </div>
     </BrowserRouter>
