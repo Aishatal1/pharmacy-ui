@@ -32,6 +32,7 @@
 .month-picker:focus {
   outline: none;
   border-color: #4CAF50;
+  color :black;
 }
 
 .chart-container {
