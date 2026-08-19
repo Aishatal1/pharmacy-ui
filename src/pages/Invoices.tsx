@@ -221,7 +221,12 @@ function Invoices() {
                 </button>
                 <button 
                   className="btn-primary" 
-                  onClick={() => handlePartialPay(showPaymentModal ? 1 : 0)}
+                  onClick={() => {
+                    if (currentInvoiceId !== null) {
+                      handlePartialPay(currentInvoiceId);
+                    }
+                  }}
+                  disabled={currentInvoiceId === null || payingInvoiceId !== null}
                 >
                   Pay ${paymentAmount.toFixed(2)}
                 </button>
